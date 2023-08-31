@@ -33,6 +33,12 @@ $ CompileDaemon -command="./user-segment-service"
 ```sh
 $ go build && ./user-segment-service
 ```
+Далее вы можете обращаться к сервису через API-платформу Postman по URL:
+```sh
+$ http://localhost:3000/
+```
+Все хэндлеры прописаны в main.go, почти весь код содержит поясняющие комментарии. 
+СУБД используется PostgreSQL, БД была создана в https://www.elephantsql.com/ (через VPN)
 
 ## Разработка
 
