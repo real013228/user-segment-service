@@ -151,6 +151,50 @@ func RegisterUser(c *gin.Context) {
 	// register user in segment
 	initializers.DB.Model(&user).Association("Segments").Append(&segment)
 	initializers.DB.Model(&user).Association("Segments").Find(&user.Segments)
+
+	// respond
+	c.JSON(200, gin.H{
+		"user": user,
+	})
+}
+
+func RegisterUserMultipleSegments(c *gin.Context) {
+	var body struct {
+		UserId     string
+		SegmentsId []string
+	}
+	c.Bind(&body)
+
+	// find user
+	var user models.User
+
+	// check existing
+	if err := initializers.DB.First(&user, body.UserId).Error; err != nil {
+		c.JSON(400, gin.H{
+			"kind":    "invalid_parameter_error",
+			"message": "There is no user with id " + body.UserId,
+		})
+		return
+	}
+
+	for i := 0; i < len(body.SegmentsId); i++ {
+		// find segment
+		var segment models.Segment
+
+		// check existing
+		if err := initializers.DB.First(&segment, body.SegmentsId[i]).Error; err != nil {
+			c.JSON(400, gin.H{
+				"kind":    "invalid_parameter_error",
+				"message": "There is no segment with id " + body.SegmentsId[i],
+			})
+			return
+		}
+
+		// register user in segment
+		initializers.DB.Model(&user).Association("Segments").Append(&segment)
+		initializers.DB.Model(&user).Association("Segments").Find(&user.Segments)
+	}
+
 	// respond
 	c.JSON(200, gin.H{
 		"user": user,

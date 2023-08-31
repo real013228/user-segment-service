@@ -12,19 +12,20 @@ func init() {
 }
 
 func setUserControllers(r *gin.Engine) {
-	r.POST("/user/create", controllers.CreateUser)
-	r.GET("/user/get/all", controllers.GetUsers)
-	r.GET("/user/get/:id", controllers.GetUserByID)
-	r.PUT("/user/update/:id", controllers.UpdateUser)
-	r.DELETE("/user/delete/:id", controllers.DeleteUser)
-	r.PUT("/user/register", controllers.RegisterUser)
+	r.POST("/user/create", controllers.CreateUser)                          // create user
+	r.GET("/user/get/all", controllers.GetUsers)                            // get all users
+	r.GET("/user/get/:id", controllers.GetUserByID)                         // get user by id
+	r.PUT("/user/update/:id", controllers.UpdateUser)                       // update user's name
+	r.DELETE("/user/delete/:id", controllers.DeleteUser)                    // delete user by id
+	r.PUT("/user/register", controllers.RegisterUser)                       // register user to the segment, takes id of user and segment
+	r.PUT("/user/register/bunch", controllers.RegisterUserMultipleSegments) // register user to the segments, takes id of user and segment
 }
 
 func setSegmentControllers(r *gin.Engine) {
-	r.POST("/segment/create", controllers.CreateSegment)
-	r.GET("/segment/get/all", controllers.GetSegments)
-	r.GET("/segment/get/:id", controllers.GetSegmentById)
-	r.DELETE("/segment/delete/:id", controllers.DeleteSegment)
+	r.POST("/segment/create", controllers.CreateSegment)       // create segment
+	r.GET("/segment/get/all", controllers.GetSegments)         // get all segments
+	r.GET("/segment/get/:id", controllers.GetSegmentById)      // get segment by id
+	r.DELETE("/segment/delete/:id", controllers.DeleteSegment) // delete segment by id
 }
 
 func main() {
